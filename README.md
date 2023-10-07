@@ -1,36 +1,56 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Lunar Quake
 
-## Getting Started
+## Project Overview
 
-First, run the development server:
+Lunar Quake is an innovative web application developed to visualize the seismic data collected from NASA's Apollo missions. By presenting this data on a 3D digital moon globe, we strive to make the intricate details of lunar seismic activities accessible and engaging for all.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Objective
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The primary aim is to provide an interactive experience for users to explore and understand the lunar seismic activities. Through this, we hope to enhance public awareness about space exploration and the invaluable data it has provided over the years.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Scope
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+- Render a 3D representation of the moon.
+  
+- Plot seismic events based on date, magnitude, depth, and type on the moon globe.
+  
+- Allow users to interact with the visualizations through tooltips and modals, displaying detailed information about specific events.
+  
+- Offer a time-lapse feature for users to witness the pattern of moonquakes over time.
 
-## Learn More
+## Technologies Used
 
-To learn more about Next.js, take a look at the following resources:
+- **Front-End**: Next.js, Three.js, Tailwind CSS, Tremor
+  
+- **Back-End**: ....
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Methodology
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+1. **Data Collection**: Retrieve seismic data from NASA's provided sources.
+  
+2. **Data Processing**: Utilize ... to process and format the retrieved data for visualization.
+  
+3. **UI/UX Design**: Draft and finalize the design of the application to ensure user-friendly interactions.
+  
+4. **3D Modeling**: Use Three.js to create the 3D digital moon globe and plot seismic events.
 
-## Deploy on Vercel
+## Benefits
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- **Educational**: Provides an intuitive platform for learners, researchers, and space enthusiasts to understand lunar seismic activities.
+  
+- **Engagement**: The interactive 3D visualization offers users an immersive experience, promoting engagement and exploration.
+  
+- **Awareness**: Enhances public appreciation for space exploration and the rich data it yields.
+  
+- **Open Source**: As an open-source project, it encourages community contributions, fostering collaboration and continuous improvement.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+## Team
+
+- **Rafi Khan**: Back-End Developer
+  
+- **Nirvana [Last name]**: Research Analyst
+  
+- **Ximing Yu**: Back-End Developer
+
+- **Mumtahin Farabi**: Front-End Developer
+  
