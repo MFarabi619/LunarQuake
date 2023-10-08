@@ -146,8 +146,8 @@ export default function MoonQuakeFilter() {
 
   // Render filter form and button
   return (
-    <div className="absolute top-20 w-full max-w-screen-2xl box-border flex justify-start">
-    <div className="flex flex-col p-4 space-y-4 border border-slate-300 backdrop-blur-md border-opacity-20 rounded-lg max-w-sm">
+    <div className="absolute top-20 w-full max-w-screen-2xl box-border flex justify-start pointer-events-none">
+    <div className="flex flex-col p-4 space-y-4 border border-slate-300 backdrop-blur-md border-opacity-20 rounded-lg max-w-sm shadow-xl pointer-events-auto">
       <h3 className="text-xl font-bold">Filter by Date and Time</h3>
       <div className="flex space-x-4">
         <div>
@@ -156,6 +156,7 @@ export default function MoonQuakeFilter() {
             type="date"
             value={startDate || ""}
             onChange={(e) => setStartDate(e.target.value)}
+            className="py-1 px-2 rounded-md border border-primary"
           />
         </div>
         <div>
@@ -165,6 +166,7 @@ export default function MoonQuakeFilter() {
             step="1"
             value={startTime || ""}
             onChange={(e) => setStartTime(e.target.value)}
+            className="py-1 px-2 rounded-md border border-primary"
           />
         </div>
       </div>
@@ -175,6 +177,7 @@ export default function MoonQuakeFilter() {
             type="date"
             value={endDate || ""}
             onChange={(e) => setEndDate(e.target.value)}
+            className="py-1 px-2 rounded-md border border-primary"
           />
         </div>
         <div>
@@ -184,6 +187,7 @@ export default function MoonQuakeFilter() {
             step="1"
             value={endTime || ""}
             onChange={(e) => setEndTime(e.target.value)}
+            className="py-1 px-2 rounded-md border border-primary"
           />
         </div>
       </div>
