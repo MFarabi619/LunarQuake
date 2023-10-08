@@ -20,6 +20,14 @@ type MoonQuake = {
   year: string;
 };
 
+type Location = {
+  lat: number;
+  lng: number;
+  mag: number;
+  date: string;
+  label: string;
+};
+
 // Convert day of year to date format (YYYY-MM-DD)
 function dayOfYearToDate(year: string, day: string): string {
   const date = new Date(parseInt(year, 10), 0);
@@ -57,18 +65,19 @@ function convertToTime(
 }
 
 // Fetch moonquake data from json file
-async function fetchMoonQuakes(): Promise<MoonQuake[]> {
-  const response = await fetch("/moonquakes.json");
+async function fetchMoonQuakes(): Promise<Location[]> {
+  const response = await fetch("location.json");
   if (!response.ok) {
     throw new Error(`Failed to fetch moonquakes data: ${response.statusText}`);
   }
+  console.log(response)
   return response.json();
 }
 
 export default function MoonQuakeFilter() {
 
   // State hooks for storing data and filter values
-  const [data, setData] = useState<MoonQuake[]>([]);
+  const [data, setData] = useState<Location[]>([]);
   const [startDate, setStartDate] = useState<string>();
   const [startTime, setStartTime] = useState<string>();
   const [endDate, setEndDate] = useState<string>();
@@ -80,28 +89,28 @@ export default function MoonQuakeFilter() {
       try {
         const moonQuakes = await fetchMoonQuakes();
         setData(moonQuakes);
-
+        console.log(data)
         // Set filter initial values based on the first and last quake
-        if (moonQuakes.length) {
-          const [firstQuake, lastQuake] = [
-            moonQuakes[0],
-            moonQuakes[moonQuakes.length - 1],
-          ];
+        // if (moonQuakes.length) {
+        //   const [firstQuake, lastQuake] = [
+        //     moonQuakes[0],
+        //     moonQuakes[moonQuakes.length - 1],
+        //   ];
 
-          setStartDate(dayOfYearToDate(firstQuake.year, firstQuake.from.day));
-          setEndDate(dayOfYearToDate(lastQuake.year, lastQuake.to.day));
+        //   setStartDate(dayOfYearToDate(firstQuake.year, firstQuake.from.day));
+        //   setEndDate(dayOfYearToDate(lastQuake.year, lastQuake.to.day));
 
-          setStartTime(
-            convertToTime(
-              firstQuake.from.hourMinute,
-              firstQuake.from.second,
-              false
-            )
-          );
-          setEndTime(
-            convertToTime(lastQuake.to.hourMinute, lastQuake.to.second, true)
-          );
-        }
+        //   setStartTime(
+        //     convertToTime(
+        //       firstQuake.from.hourMinute,
+        //       firstQuake.from.second,
+        //       false
+        //     )
+        //   );
+        //   setEndTime(
+        //     convertToTime(lastQuake.to.hourMinute, lastQuake.to.second, true)
+        //   );
+        // }
       } catch (err) {
         console.error(err);
       }
@@ -114,30 +123,39 @@ export default function MoonQuakeFilter() {
     const selectedEndDate = new Date(`${endDate}T${endTime}Z`);
 
     // Filter the data based on selected start and end date
+    // const filteredQuakes = data.filter((quake) => {
+    //   const quakeStart = new Date(
+    //     `${dayOfYearToDate(
+    //       quake.year,
+    //       quake.from.day
+    //     )}T${quake.from.hourMinute.substr(0, 2)}:${quake.from.hourMinute.substr(
+    //       2,
+    //       2
+    //     )}:${quake.from.second}Z`
+    //   );
+    //   const quakeEnd = new Date(
+    //     `${dayOfYearToDate(
+    //       quake.year,
+    //       quake.to.day
+    //     )}T${quake.to.hourMinute.substr(0, 2)}:${quake.to.hourMinute.substr(
+    //       2,
+    //       2
+    //     )}:${quake.to.second}Z`
+    //   );
+
+    //   return (
+    //     (quakeStart >= selectedStartDate && quakeStart <= selectedEndDate) ||
+    //     (quakeEnd >= selectedStartDate && quakeEnd <= selectedEndDate) ||
+    //     (quakeStart <= selectedStartDate && quakeEnd >= selectedEndDate)
+    //   );
+    // });
     const filteredQuakes = data.filter((quake) => {
-      const quakeStart = new Date(
-        `${dayOfYearToDate(
-          quake.year,
-          quake.from.day
-        )}T${quake.from.hourMinute.substr(0, 2)}:${quake.from.hourMinute.substr(
-          2,
-          2
-        )}:${quake.from.second}Z`
-      );
-      const quakeEnd = new Date(
-        `${dayOfYearToDate(
-          quake.year,
-          quake.to.day
-        )}T${quake.to.hourMinute.substr(0, 2)}:${quake.to.hourMinute.substr(
-          2,
-          2
-        )}:${quake.to.second}Z`
+      const quakeTime = new Date(
+        `${quake.date.split(' ')[0]}T${quake.date.split(' ')[1]}Z`
       );
 
       return (
-        (quakeStart >= selectedStartDate && quakeStart <= selectedEndDate) ||
-        (quakeEnd >= selectedStartDate && quakeEnd <= selectedEndDate) ||
-        (quakeStart <= selectedStartDate && quakeEnd >= selectedEndDate)
+        (quakeTime >= selectedStartDate && quakeTime <= selectedEndDate)
       );
     });
 

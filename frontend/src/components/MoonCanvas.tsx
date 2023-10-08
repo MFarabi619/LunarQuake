@@ -6,6 +6,7 @@ import { OrbitControls, useGLTF } from "@react-three/drei";
 import Starfield from "@/components/Starfield";
 import * as THREE from "three";
 import { Grid } from "@tremor/react";
+import data from './data/location.json'
 
 // Defined constant for the radius of the moon model
 const MOON_MODEL_RADIUS = 500.6653264873212;
@@ -166,10 +167,17 @@ export default function MoonCanvas({
       <Moon />
 
       {/* Test markers with various latitudes, longitudes, and magnitudes. */}
-      <Marker latitude={-8.00942} longitude={-50.42458} magnitude={3} />
+      {/* <Marker latitude={-8.00942} longitude={-50.42458} magnitude={3} />
       <Marker latitude={-3.20942} longitude={-63.62458} magnitude={2} />
       <Marker latitude={-3.30942} longitude={-43.32458} magnitude={4} />
-      <Marker latitude={10} longitude={10} magnitude={8} />
+      <Marker latitude={10} longitude={10} magnitude={8} /> */}
+      {
+        data.map((loc) => {
+          return (
+            <Marker latitude={loc.lat} longitude={loc.lng} magnitude={loc.magnitude}/>
+          )
+        })
+      }
     </Canvas>
   );
 }
