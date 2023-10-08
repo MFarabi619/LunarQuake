@@ -146,7 +146,8 @@ export default function MoonQuakeFilter() {
 
   // Render filter form and button
   return (
-    <div className="flex flex-col p-4 space-y-4">
+    <div className="absolute top-20 w-full max-w-screen-2xl box-border flex justify-start">
+    <div className="flex flex-col p-4 space-y-4 border border-slate-300 backdrop-blur-md border-opacity-20 rounded-lg max-w-sm">
       <h3 className="text-xl font-bold">Filter by Date and Time</h3>
       <div className="flex space-x-4">
         <div>
@@ -186,9 +187,10 @@ export default function MoonQuakeFilter() {
           />
         </div>
       </div>
-      <button className="btn btn-primary mt-4 max-w-sm" onClick={handleSubmit}>
+      <button className="btn btn-primary btn-outline mt-4 max-w-sm hover:scale-105" onClick={handleSubmit}>
         Apply Filter
       </button>
+    </div>
     </div>
   );
 }
