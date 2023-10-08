@@ -1,31 +1,31 @@
-import { BufferGeometry, Float32BufferAttribute, Points, PointsMaterial } from 'three';
+import { BufferGeometry, Float32BufferAttribute, Points, PointsMaterial } from "three";
 
-const Starfield: React.FC = () => {
-  // Array to store the positions of the stars
-  const vertices = [];
+const StarField: React.FC = () => {
 
-  // Generate 10,000 stars distributed in a space of 5000x5000x5000
-  for (let i = 0; i < 10000; i++) {
-    // Distribute stars randomly by adjusting their positions
-    const x = (Math.random() - 0.5) * 5000; 
-    const y = (Math.random() - 0.5) * 5000;
-    const z = (Math.random() - 0.5) * 5000;
+  // Create buffer geometry for a large number of vertices (stars).
+  const vertices: number[] = [];
+  
+  const radius = 2000; // Set this value so it's larger than the moon's distance from the camera
+
+  for (let i = 0; i < 1000; i++) {
+    const theta = 2 * Math.PI * Math.random();  // Random value between [0, 2PI]
+    const phi = Math.acos(2 * Math.random() - 1); // Random value between [0, PI]
     
-    // Add each star's position to our vertices array
+    // Convert spherical coordinates to Cartesian coordinates
+    const x = radius * Math.sin(phi) * Math.cos(theta);
+    const y = radius * Math.sin(phi) * Math.sin(theta);
+    const z = radius * Math.cos(phi);
+
     vertices.push(x, y, z);
   }
 
-  // Create geometry for our starfield using Three.js's BufferGeometry
   const geometry = new BufferGeometry();
-
-  // Add vertices to the geometry as an attribute
   geometry.setAttribute('position', new Float32BufferAttribute(vertices, 3));
 
-  // Define the material for our star points: white color and small size
-  const material = new PointsMaterial({ color: 0xFFFFFF, size: 2 });
+  // Material for stars, setting color and size of each star/point
+  const material = new PointsMaterial({ color: 0xFFFFFF, size: 2, transparent: true, opacity: 0.8 });
 
-  // Return a Points object (a series of points/vertices) to represent our starfield
-  return <primitive object={new Points(geometry, material)} />;
+  return <points geometry={geometry} material={material} />;
 };
 
-export default Starfield;
+export default StarField;

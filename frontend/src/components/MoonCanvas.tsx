@@ -68,13 +68,21 @@ export default function MoonCanvas() {
     return () => window.removeEventListener("resize", adjustCameraPosition);
   }, [MOON_DIAMETER]);
 
+  // Limit the zoom out so that the starfield sphere is not visible
+  const MAX_ZOOM = 2000;
+
+  // Limit the zoom in so that the moon model is not clipped
+  const MIN_ZOOM = MOON_DIAMETER-400;
+
   return (
-    <Canvas camera={{ position: cameraPosition }}>
-        {/* Starfield background. */}
-        <Starfield />
+    <Canvas
+      camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
+    >
+      {/* Starfield background. */}
+      <Starfield />
 
       {/* Allow the user to control the camera with the mouse. */}
-      <OrbitControls />
+      <OrbitControls minDistance={MIN_ZOOM} maxDistance={MAX_ZOOM} />
 
       {/* Ambient light affects all objects in the scene globally. */}
       <ambientLight intensity={3} />
