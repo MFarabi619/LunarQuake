@@ -12,14 +12,17 @@ import Menu from "@/components/Menu";
 
 export default function Home() {
     const [showWorldAxes, setShowWorldAxes] = useState(false);
+     const [showLatitudeLongitude, setShowLatitudeLongitude] = useState(false);
   return (
     <>
       <div className="flex flex-col justify-center items-center h-screen">
-<MoonCanvas showWorldAxes={showWorldAxes} />
+<MoonCanvas showWorldAxes={showWorldAxes} showLatitudeLongitude={showLatitudeLongitude}/>
         <MoonQuakeFilter />
         <Menu
           showWorldAxes={showWorldAxes}
           onToggleWorldAxes={() => setShowWorldAxes((prev) => !prev)}
+          showLatitudeLongitude={showLatitudeLongitude}
+          onToggleLatitudeLongitude={() => setShowLatitudeLongitude((prev) => !prev)}
         />
       </div>
     </>

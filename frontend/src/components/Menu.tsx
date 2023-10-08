@@ -1,9 +1,11 @@
 interface MenuProps {
   showWorldAxes: boolean;
   onToggleWorldAxes: () => void;
+  showLatitudeLongitude: boolean;
+    onToggleLatitudeLongitude: () => void;
 }
 
-export default function Menu({ showWorldAxes, onToggleWorldAxes }: MenuProps) {
+export default function Menu({ showWorldAxes, onToggleWorldAxes, showLatitudeLongitude, onToggleLatitudeLongitude }: MenuProps) {
   return (
     <div className="absolute top-[22.5rem] w-full max-w-screen-2xl box-border flex justify-start pointer-events-none">
       <div className="grid grid-cols-5 gap-4 p-4 border border-slate-300 backdrop-blur-md border-opacity-20 rounded-lg max-w-sm shadow-xl pointer-events-auto">
@@ -23,6 +25,8 @@ export default function Menu({ showWorldAxes, onToggleWorldAxes }: MenuProps) {
         <input
           type="checkbox"
           className="col-span-1 toggle toggle-warning"
+          checked={showLatitudeLongitude}
+        onChange={onToggleLatitudeLongitude}
         ></input>
 
         <div className="col-span-4">Height Map</div>
