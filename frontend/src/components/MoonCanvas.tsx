@@ -1,6 +1,6 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import {PolarGridHelper, Color } from "three";
+import { PolarGridHelper, Color } from "three";
 import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import Starfield from "@/components/Starfield";
@@ -52,12 +52,20 @@ const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
 interface MoonCanvasProps {
   showWorldAxes: boolean;
   showLatitudeLongitude: boolean;
+  directionalLightIntensity: number;
+  ambientLightIntensity: number;
+  hemisphereLightIntensity: number;
+  pointLightIntensity: number;
 }
 
 // Main component to display the moon model and markers
 export default function MoonCanvas({
   showWorldAxes,
   showLatitudeLongitude,
+  directionalLightIntensity,
+  ambientLightIntensity,
+  hemisphereLightIntensity,
+  pointLightIntensity,
 }: MoonCanvasProps) {
   // Calculate the diameter of the moon model, so that it can be used to calculate the camera position based on the viewport aspect ratio
   const MOON_DIAMETER = MOON_MODEL_RADIUS * 2;
@@ -85,45 +93,44 @@ export default function MoonCanvas({
   // Limit the zoom in so that the moon model is not clipped
   const MIN_ZOOM = MOON_DIAMETER - 400;
 
-//   const { scene } = useThree();
-//   const polarGridHelperRef = useRef<PolarGridHelper>(); // Reference to the helper
-  
-//   useEffect(() => {
-//   if (showLatitudeLongitude) {
-//     const helper = new PolarGridHelper(
-//       MOON_MODEL_RADIUS,
-//       10, // Represents longitudes
-//       5,  // Represents latitudes
-//       64,
-//       new Color("red"),
-//       new Color("white")
-//       );
+  //   const { scene } = useThree();
+  //   const polarGridHelperRef = useRef<PolarGridHelper>(); // Reference to the helper
 
-//     polarGridHelperRef.current = helper;
-//     scene.add(helper);
-//   } else if (polarGridHelperRef.current) {
-//     // If it's already in the scene and the prop changes to hide it, remove it
-//     scene.remove(polarGridHelperRef.current);
-//   }
+  //   useEffect(() => {
+  //   if (showLatitudeLongitude) {
+  //     const helper = new PolarGridHelper(
+  //       MOON_MODEL_RADIUS,
+  //       10, // Represents longitudes
+  //       5,  // Represents latitudes
+  //       64,
+  //       new Color("red"),
+  //       new Color("white")
+  //       );
 
-//   // Cleanup function to remove the helper when the component unmounts
-//   return () => {
-//     if (polarGridHelperRef.current) {
-//       scene.remove(polarGridHelperRef.current);
-//     }
-//   };
-// }, [showLatitudeLongitude, scene]); // Make sure the effect runs when `showLatitudeLongitude` changes
+  //     polarGridHelperRef.current = helper;
+  //     scene.add(helper);
+  //   } else if (polarGridHelperRef.current) {
+  //     // If it's already in the scene and the prop changes to hide it, remove it
+  //     scene.remove(polarGridHelperRef.current);
+  //   }
 
+  //   // Cleanup function to remove the helper when the component unmounts
+  //   return () => {
+  //     if (polarGridHelperRef.current) {
+  //       scene.remove(polarGridHelperRef.current);
+  //     }
+  //   };
+  // }, [showLatitudeLongitude, scene]); // Make sure the effect runs when `showLatitudeLongitude` changes
 
-return (
+  return (
     <Canvas
-    camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
+      camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
     >
       {/* Option to show world axes */}
       {showWorldAxes && <axesHelper args={[MOON_MODEL_RADIUS * 2]} />}
 
       {/* Option to show latitude and longitude */}
-{/* {showLatitudeLongitude && (
+      {/* {showLatitudeLongitude && (
   <PolarGridHelper 
           radius={MOON_MODEL_RADIUS}
           radials={10}  // Represents longitudes
@@ -141,16 +148,19 @@ return (
       <OrbitControls minDistance={MIN_ZOOM} maxDistance={MAX_ZOOM} />
 
       {/* Ambient light affects all objects in the scene globally. */}
-      <ambientLight intensity={3} />
+      <ambientLight intensity={ambientLightIntensity} />
 
       {/* Directional light acts like the sun, providing parallel light rays. */}
-      <directionalLight intensity={3} position={[2, 2, 2]} />
+      <directionalLight
+        intensity={directionalLightIntensity}
+        position={[2, 2, 2]}
+      />
 
       {/* Point lights emit light in every direction from a single point. */}
-      <pointLight intensity={0.5} position={[-5, 5, -5]} />
+      {/* <pointLight intensity={pointLightIntensity} position={[100, 0, 0]} /> */}
 
       {/* Hemisphere light to softly illuminate the scene and give a more natural look. */}
-      <hemisphereLight intensity={0.5} />
+      <hemisphereLight intensity={hemisphereLightIntensity} />
 
       {/* The moon model. */}
       <Moon />
