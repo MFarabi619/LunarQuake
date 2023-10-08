@@ -13,8 +13,8 @@ import Menu from "@/components/Menu";
 export default function Home() {
   const [showWorldAxes, setShowWorldAxes] = useState(false);
   const [showLatitudeLongitude, setShowLatitudeLongitude] = useState(false);
-  const [ambientLightIntensity, setAmbientLightIntensity] = useState(3);
   const [directionalLightIntensity, setDirectionalLightIntensity] = useState(3);
+  const [ambientLightIntensity, setAmbientLightIntensity] = useState(3);
   const [hemisphereLightIntensity, setHemisphereLightIntensity] = useState(0.5);
   const [pointLightIntensity, setPointLightIntensity] = useState(0.5);
 

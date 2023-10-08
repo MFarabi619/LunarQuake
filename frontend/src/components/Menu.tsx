@@ -78,7 +78,10 @@ export default function Menu({
           onChange={(e) => setDirectionalLightIntensity(Number(e.target.value))}
           className="col-span-4 range range-warning range-xs mt-2"
         />
-        <button className="col-span-1 btn btn-sm btn-outline btn-accent self-center">
+        <button
+          className="col-span-1 btn btn-sm btn-outline btn-accent self-center"
+          onClick={() => setDirectionalLightIntensity(3)}
+        >
           Reset
         </button>
 
@@ -92,7 +95,10 @@ export default function Menu({
           onChange={(e) => setAmbientLightIntensity(Number(e.target.value))}
           className="col-span-4 range range-warning range-xs mt-2"
         />
-        <button className="col-span-1 btn btn-sm btn-outline btn-accent self-center">
+        <button
+          className="col-span-1 btn btn-sm btn-outline btn-accent self-center"
+          onClick={() => setAmbientLightIntensity(3)}
+        >
           Reset
         </button>
 
@@ -106,7 +112,10 @@ export default function Menu({
           onChange={(e) => setHemisphereLightIntensity(Number(e.target.value))}
           className="col-span-4 range range-warning range-xs mt-2"
         />
-        <button className="col-span-1 btn btn-sm btn-outline btn-accent self-center">
+        <button
+          className="col-span-1 btn btn-sm btn-outline btn-accent self-center"
+          onClick={() => setHemisphereLightIntensity(0.5)}
+        >
           Reset
         </button>
 
