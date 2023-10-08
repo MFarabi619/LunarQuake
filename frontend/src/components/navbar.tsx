@@ -13,7 +13,7 @@ export default function Navbar() {
   // Close side menu when the window is resized to a width greater than 768px
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth > 768) {  
+      if (window.innerWidth > 768) {
         setMenuOpen(false);
       }
     };
@@ -28,7 +28,10 @@ export default function Navbar() {
 
   const NavigationLinks = () => (
     <nav className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-      <Link href={"/"} onClick={() => menuOpen ? setMenuOpen(!menuOpen):null}>
+      <Link
+        href={"/"}
+        onClick={() => (menuOpen ? setMenuOpen(!menuOpen) : null)}
+      >
         <Button
           size="xs"
           variant="secondary"
@@ -37,7 +40,10 @@ export default function Navbar() {
           Home
         </Button>
       </Link>
-      <Link href={"/"} onClick={() => menuOpen ? setMenuOpen(!menuOpen):null}>
+      <Link
+        href={"/"}
+        onClick={() => (menuOpen ? setMenuOpen(!menuOpen) : null)}
+      >
         <Button
           size="xs"
           variant="secondary"
@@ -56,6 +62,10 @@ export default function Navbar() {
     </nav>
   );
 
+  const lineBaseStyle = `h-0.5 bg-white transition-all ease-in-out duration-500 ${
+    menuOpen ? "w-14" : "w-6"
+  }`;
+
   return (
     <>
       <header className="mt-2 mx-2 fixed w-full max-w-screen-2xl box-border z-10 flex px-8 py-4 justify-between bg-transparent bg-opacity-5 backdrop-blur-md rounded-xl border border-slate-300 border-opacity-20 shadow-lg">
@@ -67,14 +77,36 @@ export default function Navbar() {
           <NavigationLinks />
         </section>
         <section className="md:hidden">
-          <MenuIcon
-            className="h-6 w-6 cursor-pointer"
+          <button
+            className="text-white-500 w-10 h-10 relative focus:outline-none scale-150"
             onClick={() => setMenuOpen(!menuOpen)}
-          />
+          >
+            <span className="sr-only">Open main menu</span>
+            <div className="block w-5 absolute left-1/2 top-1/2 transform -translate-x-1/2 -translate-y-1/2">
+              <span
+                aria-hidden="true"
+                className={`block absolute h-0.5 w-5 bg-current transform transition duration-500 ease-in-out ${
+                  menuOpen ? "rotate-45" : "-translate-y-1.5"
+                }`}
+              ></span>
+              <span
+                aria-hidden="true"
+                className={`block absolute h-0.5 w-5 bg-current transform transition duration-500 ease-in-out ${
+                  menuOpen ? "opacity-0" : ""
+                }`}
+              ></span>
+              <span
+                aria-hidden="true"
+                className={`block absolute h-0.5 w-5 bg-current transform transition duration-500 ease-in-out ${
+                  menuOpen ? "-rotate-45" : "translate-y-1.5"
+                }`}
+              ></span>
+            </div>
+          </button>
         </section>
       </header>
       <div
-        className={`fixed top-[4.25rem] right-0 w-64 h-screen box-border z-10 bg-transparent backdrop-blur-lg rounded-xl border border-slate-300 border-opacity-50 shadow-lg p-4 transform transition-transform ease-in-out duration-700 ${
+        className={`fixed top-[5.25rem] right-0 w-64 h-screen box-border z-10 bg-transparent backdrop-blur-lg rounded-xl border border-slate-300 border-opacity-50 shadow-lg p-4 transform transition-transform ease-in-out duration-700 ${
           menuOpen ? "translate-x-40" : "translate-x-full"
         }`}
       >
