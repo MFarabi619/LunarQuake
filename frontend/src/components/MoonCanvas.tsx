@@ -10,7 +10,7 @@ const Moon = () => {
   return <primitive object={model.scene} />;
 };
 
-// Component properties interface for the Marker
+// Type interface for Marker
 interface MarkerProps {
   latitude: number;
   longitude: number;
@@ -19,6 +19,7 @@ interface MarkerProps {
 
 // Component to display a marker on the moon's surface based on the latitude, longitude, and magnitude
 const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
+    
   // Convert the latitude and longitude to spherical coordinates
   const phi = Math.PI / 2 - latitude * (Math.PI / 180);
   const theta = Math.PI + longitude * (Math.PI / 180);
@@ -33,14 +34,17 @@ const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
   const z = r * Math.sin(phi) * Math.cos(theta);
 
   return (
+    // Create a marker sphere at the Cartesian coordinates
     <mesh position={[x, y, z]}>
       <sphereGeometry args={[markerRadiusOffset, 16, 16]} />
+
       {/* Material for the marker with transparency for visibility */}
       <meshBasicMaterial color="red" opacity={0.5} transparent={true} />
     </mesh>
   );
 };
 
+// Main component to display the moon model and markers
 export default function MoonCanvas() {
   return (
     <Canvas camera={{ position: [0, 0, 1000] }}>
