@@ -11,7 +11,7 @@ const Asteroid_1 = () => {
   const model = useGLTF("/asteroid_1.glb");
    const meshRef = useRef<THREE.Object3D>(null);
 
-  // Use the render loop to rotate the asteroid
+  // Render loop to rotate the asteroid
   useFrame(() => {
     if (meshRef.current) {
       meshRef.current.rotation.x += 0.001; // Rotate around X-axis
@@ -26,7 +26,6 @@ const Asteroid_2 = () => {
   const model = useGLTF("/asteroid_2.glb");
    const meshRef = useRef<THREE.Object3D>(null);
 
-  // Use the render loop to rotate the asteroid
   useFrame(() => {
     if (meshRef.current) {
         meshRef.current.rotation.y += 0.005; // Rotate around Y-axis
@@ -35,6 +34,22 @@ const Asteroid_2 = () => {
   });
 
   return <primitive ref={meshRef} object={model.scene} scale={1250} position={[-4000, 700, 0]} />;
+};
+
+
+const Among_Us_Yellow = () => {
+  const model = useGLTF("/among_us_yellow.glb");
+   const meshRef = useRef<THREE.Object3D>(null);
+
+  useFrame(() => {
+    if (meshRef.current) {
+        meshRef.current.rotation.x += 0.003; // Rotate around X-axis
+        meshRef.current.rotation.y += 0.001; // Rotate around X-axis
+        meshRef.current.rotation.z += 0.002; // Rotate around Z-axis
+    }
+  });
+
+  return <primitive ref={meshRef} object={model.scene} scale={500} position={[-2000, 0, 1500]} />;
 };
 
 
@@ -50,6 +65,7 @@ export default function History() {
           <hemisphereLight intensity={0.5} />
           <Asteroid_1 />
           <Asteroid_2 />
+            <Among_Us_Yellow />
           <Starfield />
         </Canvas>
         <div className="absolute mt-[6rem] flex max-w-screen-2xl justify-center bg-transparent backdrop-blur-[2.5px] border border-slate-300 border-opacity-20 mx-auto p-6">
