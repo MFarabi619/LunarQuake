@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 
+// Define the structure of the MoonQuake data
 type MoonQuake = {
   apolloStation: string;
   fileNumber: string;
@@ -19,12 +20,14 @@ type MoonQuake = {
   year: string;
 };
 
+// Convert day of year to date format (YYYY-MM-DD)
 function dayOfYearToDate(year: string, day: string): string {
   const date = new Date(parseInt(year, 10), 0);
   date.setDate(parseInt(day, 10));
   return date.toISOString().split("T")[0];
 }
 
+// Convert hour, minute, and second to time format (HH:MM:SS)
 function convertToTime(
   hourMinute: string,
   second: string,
@@ -32,6 +35,7 @@ function convertToTime(
 ): string {
   const padToSize = (num: string, size: number) => num.padStart(size, "0");
 
+  // Split hour and minute based on input length
   let hours, minutes;
   if (hourMinute.length === 3) {
     hours = hourMinute.substr(0, 1);
@@ -41,6 +45,7 @@ function convertToTime(
     minutes = hourMinute.substr(2, 2);
   }
 
+  // Handle seconds with fractional values
   const actualSeconds = parseInt(second.split(".")[0], 10);
   const hasFraction = parseFloat(second) - actualSeconds > 0;
   const roundedSeconds = end && hasFraction ? actualSeconds + 1 : actualSeconds;
@@ -51,6 +56,7 @@ function convertToTime(
   )}`;
 }
 
+// Fetch moonquake data from json file
 async function fetchMoonQuakes(): Promise<MoonQuake[]> {
   const response = await fetch("/moonquakes.json");
   if (!response.ok) {
@@ -60,18 +66,22 @@ async function fetchMoonQuakes(): Promise<MoonQuake[]> {
 }
 
 export default function MoonQuakeFilter() {
+
+  // State hooks for storing data and filter values
   const [data, setData] = useState<MoonQuake[]>([]);
   const [startDate, setStartDate] = useState<string>();
   const [startTime, setStartTime] = useState<string>();
   const [endDate, setEndDate] = useState<string>();
   const [endTime, setEndTime] = useState<string>();
 
+  // Use effect to initialize moonquake data and set default filter values
   useEffect(() => {
     (async () => {
       try {
         const moonQuakes = await fetchMoonQuakes();
         setData(moonQuakes);
 
+        // Set filter initial values based on the first and last quake
         if (moonQuakes.length) {
           const [firstQuake, lastQuake] = [
             moonQuakes[0],
@@ -98,9 +108,12 @@ export default function MoonQuakeFilter() {
     })();
   }, []);
 
+  // Handle filter button click
   const handleSubmit = () => {
     const selectedStartDate = new Date(`${startDate}T${startTime}Z`);
     const selectedEndDate = new Date(`${endDate}T${endTime}Z`);
+
+    // Filter the data based on selected start and end date
     const filteredQuakes = data.filter((quake) => {
       const quakeStart = new Date(
         `${dayOfYearToDate(
@@ -120,6 +133,7 @@ export default function MoonQuakeFilter() {
           2
         )}:${quake.to.second}Z`
       );
+
       return (
         (quakeStart >= selectedStartDate && quakeStart <= selectedEndDate) ||
         (quakeEnd >= selectedStartDate && quakeEnd <= selectedEndDate) ||
@@ -130,6 +144,7 @@ export default function MoonQuakeFilter() {
     console.log(filteredQuakes);
   };
 
+  // Render filter form and button
   return (
     <div className="flex flex-col p-4 space-y-4">
       <h3 className="text-xl font-bold">Filter by Date and Time</h3>
