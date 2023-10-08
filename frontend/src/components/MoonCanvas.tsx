@@ -2,6 +2,7 @@
 import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
+import Starfield from "@/components/Starfield";
 
 // Defined constant for the radius of the moon model
 const MOON_MODEL_RADIUS = 500.6653264873212;
@@ -69,6 +70,9 @@ export default function MoonCanvas() {
 
   return (
     <Canvas camera={{ position: cameraPosition }}>
+        {/* Starfield background. */}
+        <Starfield />
+
       {/* Allow the user to control the camera with the mouse. */}
       <OrbitControls />
 
