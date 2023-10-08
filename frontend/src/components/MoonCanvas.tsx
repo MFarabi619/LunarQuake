@@ -104,6 +104,7 @@ export default function MoonCanvas() {
       <Marker latitude={-3.20942} longitude={-63.62458} magnitude={2} />
       <Marker latitude={-3.30942} longitude={-43.32458} magnitude={4} />
       <Marker latitude={10} longitude={10} magnitude={8} />
+
     </Canvas>
   );
 }
