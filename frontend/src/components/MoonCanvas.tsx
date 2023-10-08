@@ -1,5 +1,6 @@
 "use client";
 import { useState, useEffect } from "react";
+import { AxesHelper } from "three";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import Starfield from "@/components/Starfield";
@@ -46,8 +47,12 @@ const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
   );
 };
 
+interface MoonCanvasProps {
+  showWorldAxes: boolean;
+}
+
 // Main component to display the moon model and markers
-export default function MoonCanvas() {
+export default function MoonCanvas({ showWorldAxes }: MoonCanvasProps) {
   // Calculate the diameter of the moon model, so that it can be used to calculate the camera position based on the viewport aspect ratio
   const MOON_DIAMETER = MOON_MODEL_RADIUS * 2;
   const [cameraPosition, setCameraPosition] = useState<
@@ -78,6 +83,10 @@ export default function MoonCanvas() {
     <Canvas
       camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
     >
+
+{/* Option to show world axes */}
+ {showWorldAxes && <axesHelper args={[MOON_MODEL_RADIUS * 2]} />}      
+
       {/* Starfield background. */}
       <Starfield />
 
