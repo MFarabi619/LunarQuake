@@ -2,9 +2,8 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import { Button } from "@tremor/react";
 import { Badge } from "@tremor/react";
-import { StatusOnlineIcon, MenuIcon } from "@heroicons/react/outline";
+import { StatusOnlineIcon } from "@heroicons/react/outline";
 import { useEffect } from "react";
 
 export default function Navbar() {
@@ -26,32 +25,26 @@ export default function Navbar() {
     };
   }, []);
 
+  const links = [
+    { name: "Home", path: "/" },
+    { name: "About", path: "/" },
+    { name: "History", path: "/" },
+    { name: "Contact", path: "/" },
+  ];
+
   const NavigationLinks = () => (
     <nav className="flex flex-col md:flex-row space-y-4 md:space-y-0 md:space-x-4">
-      <Link
-        href={"/"}
-        onClick={() => (menuOpen ? setMenuOpen(!menuOpen) : null)}
-      >
-        <Button
-          size="xs"
-          variant="secondary"
-          className="transition hover:cursor-pointer hover:scale-110 duration-500 ease-in-out"
+      {links.map((link) => (
+        <Link
+          key={link.name}
+          href={link.path}
+          onClick={() => (menuOpen ? setMenuOpen(!menuOpen) : null)}
         >
-          Home
-        </Button>
-      </Link>
-      <Link
-        href={"/"}
-        onClick={() => (menuOpen ? setMenuOpen(!menuOpen) : null)}
-      >
-        <Button
-          size="xs"
-          variant="secondary"
-          className="transition hover:cursor-pointer hover:scale-110 duration-500 ease-in-out"
-        >
-          About
-        </Button>
-      </Link>
+          <button className="btn btn-sm btn-outline btn-secondary transition hover:cursor-pointer hover:scale-105 duration-500 ease-in-out">
+            {link.name}
+          </button>
+        </Link>
+      ))}
       <Badge
         size="lg"
         icon={StatusOnlineIcon}
@@ -62,10 +55,6 @@ export default function Navbar() {
     </nav>
   );
 
-  const lineBaseStyle = `h-0.5 bg-white transition-all ease-in-out duration-500 ${
-    menuOpen ? "w-14" : "w-6"
-  }`;
-
   return (
     <>
       <header className="mt-2 mx-2 fixed w-full max-w-screen-2xl box-border z-10 flex px-8 py-4 justify-between bg-transparent bg-opacity-5 backdrop-blur-md rounded-xl border border-slate-300 border-opacity-20 shadow-lg">
@@ -74,7 +63,7 @@ export default function Navbar() {
           LunarQuake
         </section>
 
-      {/* Nav Links */}
+        {/* Nav Links */}
         <section className="hidden md:block">
           <NavigationLinks />
         </section>
@@ -110,8 +99,8 @@ export default function Navbar() {
 
       {/* Mobile Side Menu */}
       <div
-        className={`fixed top-[5.25rem] right-0 w-64 h-screen box-border z-10 bg-transparent backdrop-blur-lg rounded-xl border border-slate-300 border-opacity-50 shadow-lg p-4 transform transition-transform ease-in-out duration-700 ${
-          menuOpen ? "translate-x-40" : "translate-x-full"
+        className={`fixed top-[5.5rem] right-0 w-fit h-screen box-border z-10 bg-transparent backdrop-blur-lg rounded-xl border border-slate-300 border-opacity-50 shadow-lg p-4 transform transition-transform ease-in-out duration-700 ${
+          menuOpen ? "-translate-x-2" : "translate-x-full"
         }`}
       >
         <NavigationLinks />
