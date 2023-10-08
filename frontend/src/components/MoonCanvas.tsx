@@ -1,25 +1,33 @@
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 
-const MOON_MODEL_RADIUS = 865.6653264873212; 
+// Defined constant for the radius of the moon model
+const MOON_MODEL_RADIUS = 500.6653264873212; 
 
+// Component to load and display the moon model
 const Moon = () => {
   const model = useGLTF("/moon.glb");
   return <primitive object={model.scene} />;
 };
 
-const Marker: React.FC<{ }> = () => {
-  // Provided the latitude and longitude, convert to radians
-  const latitude = -3.00942 * (Math.PI / 180);
-  const longitude = -23.42458 * (Math.PI / 180);
+// Component properties interface for the Marker
+interface MarkerProps {
+  latitude: number;
+  longitude: number;
+  magnitude: number;
+}
 
-  const phi = Math.PI / 2 - latitude;
-  const theta = Math.PI + longitude;
+// Component to display a marker on the moon's surface based on the latitude, longitude, and magnitude
+const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
+  // Convert the latitude and longitude to spherical coordinates
+  const phi = Math.PI / 2 - latitude * (Math.PI / 180);
+  const theta = Math.PI + longitude * (Math.PI / 180);
+  
+  // Calculate the radius of the marker based on the magnitude
+  const markerRadiusOffset = MOON_MODEL_RADIUS * 0.01 * magnitude;
+  const r = MOON_MODEL_RADIUS;
 
-  // The marker radius is a percentage of the moon radius
-  const markerRadiusOffset = MOON_MODEL_RADIUS * 0.01;
-  const r = MOON_MODEL_RADIUS-365;
-
+  // Convert spherical coordinates to Cartesian coordinates
   const x = -r * Math.sin(phi) * Math.sin(theta);
   const y = r * Math.cos(phi);
   const z = r * Math.sin(phi) * Math.cos(theta);
@@ -27,13 +35,13 @@ const Marker: React.FC<{ }> = () => {
   return (
     <mesh position={[x, y, z]}>
       <sphereGeometry args={[markerRadiusOffset, 16, 16]} />
-      <meshBasicMaterial color="red" />
+      {/* Material for the marker with transparency for visibility */}
+      <meshBasicMaterial color="red" opacity={0.5} transparent={true} />
     </mesh>
   );
 };
 
 export default function MoonCanvas() {
-
   return (
     <Canvas camera={{ position: [0, 0, 1000] }}>
       {/* Allow the user to control the camera with the mouse. */}
@@ -54,8 +62,10 @@ export default function MoonCanvas() {
       {/* The moon model. */}
       <Moon />
 
-      {/* The marker to indicate the central station. */}
-      <Marker/>
+      {/* Test markers with various latitudes, longitudes, and magnitudes. */}
+      <Marker latitude={-8.00942} longitude={-50.42458} magnitude={3} />
+      <Marker latitude={-3.20942} longitude={-63.62458} magnitude={2} />
+      <Marker latitude={-3.30942} longitude={-43.32458} magnitude={4} />
     </Canvas>
   );
 }
