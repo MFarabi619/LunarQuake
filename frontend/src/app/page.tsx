@@ -8,6 +8,7 @@ const MoonCanvas = dynamic(() => import('@/components/MoonCanvas'), {
 });
 
 import MoonQuakeFilter from '@/components/MoonQuakeFilter';
+import Menu from '@/components/Menu';
 
 export default function Home() {
   return (
@@ -15,6 +16,7 @@ export default function Home() {
       <div className="flex flex-col justify-center items-center h-screen">
         <MoonCanvas />
       <MoonQuakeFilter />
+      <Menu />
       </div>
     </>
   )
