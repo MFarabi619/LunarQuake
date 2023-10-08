@@ -46,9 +46,9 @@ The primary aim is to provide an interactive experience for users to explore and
 
 ## Team
 
-- **Rafi Khan**: Back-End Developer
+- **Rafi Khan** <rafi@rafikhan.io>: Seismic Data Processing, Back-end Programming.
   
-- **Nirvana [Last name]**: Research Analyst
+- **Alif Chowdhury** <chowdhury.alif@gmail.com>: Research Anaylyst, Seismic Data Processing. 
   
 - **Ximing Yu**: Back-End Developer
 
