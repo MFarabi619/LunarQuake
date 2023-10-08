@@ -1,8 +1,10 @@
+"use client";
+import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 
 // Defined constant for the radius of the moon model
-const MOON_MODEL_RADIUS = 500.6653264873212; 
+const MOON_MODEL_RADIUS = 500.6653264873212;
 
 // Component to load and display the moon model
 const Moon = () => {
@@ -19,11 +21,10 @@ interface MarkerProps {
 
 // Component to display a marker on the moon's surface based on the latitude, longitude, and magnitude
 const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
-    
   // Convert the latitude and longitude to spherical coordinates
   const phi = Math.PI / 2 - latitude * (Math.PI / 180);
   const theta = Math.PI + longitude * (Math.PI / 180);
-  
+
   // Calculate the radius of the marker based on the magnitude
   const markerRadiusOffset = MOON_MODEL_RADIUS * 0.01 * magnitude;
   const r = MOON_MODEL_RADIUS;
@@ -46,8 +47,28 @@ const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
 
 // Main component to display the moon model and markers
 export default function MoonCanvas() {
+  // Calculate the diameter of the moon model, so that it can be used to calculate the camera position based on the viewport aspect ratio
+  const MOON_DIAMETER = MOON_MODEL_RADIUS * 2;
+  const [cameraPosition, setCameraPosition] = useState<
+    [number, number, number]
+  >([0, 0, 1000]);
+
+  useEffect(() => {
+    const adjustCameraPosition = () => {
+      const viewportAspect = window.innerWidth / window.innerHeight;
+      let cameraZ = MOON_DIAMETER / Math.min(viewportAspect, 1);
+      cameraZ = Math.min(cameraZ, 1400); // Ensure it doesn't exceed 1400, as that's the max zoom
+      setCameraPosition([0, 0, cameraZ]);
+    };
+
+    window.addEventListener("resize", adjustCameraPosition);
+    adjustCameraPosition();
+
+    return () => window.removeEventListener("resize", adjustCameraPosition);
+  }, [MOON_DIAMETER]);
+
   return (
-    <Canvas camera={{ position: [0, 0, 1000] }}>
+    <Canvas camera={{ position: cameraPosition }}>
       {/* Allow the user to control the camera with the mouse. */}
       <OrbitControls />
 
@@ -70,6 +91,7 @@ export default function MoonCanvas() {
       <Marker latitude={-8.00942} longitude={-50.42458} magnitude={3} />
       <Marker latitude={-3.20942} longitude={-63.62458} magnitude={2} />
       <Marker latitude={-3.30942} longitude={-43.32458} magnitude={4} />
+      <Marker latitude={10} longitude={10} magnitude={8} />
     </Canvas>
   );
 }
