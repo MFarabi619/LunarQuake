@@ -5,6 +5,7 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import Starfield from "@/components/Starfield";
 import * as THREE from "three";
+import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 // Defined constant for the radius of the moon model
 const MOON_MODEL_RADIUS = 500.6653264873212;
@@ -20,10 +21,18 @@ interface MarkerProps {
   latitude: number;
   longitude: number;
   magnitude: number;
+  date: string;
+  label: string;
 }
 
 // Component to display a marker on the moon's surface based on the latitude, longitude, and magnitude
-const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
+const Marker: React.FC<MarkerProps> = ({
+  latitude,
+  longitude,
+  magnitude,
+  date,
+  label,
+}) => {
   // Convert the latitude and longitude to spherical coordinates
   const phi = Math.PI / 2 - latitude * (Math.PI / 180);
   const theta = Math.PI + longitude * (Math.PI / 180);
@@ -37,14 +46,24 @@ const Marker: React.FC<MarkerProps> = ({ latitude, longitude, magnitude }) => {
   const y = r * Math.cos(phi);
   const z = r * Math.sin(phi) * Math.cos(theta);
 
-  return (
-    // Create a marker sphere at the Cartesian coordinates
-    <mesh position={[x, y, z]}>
-      <sphereGeometry args={[markerRadiusOffset, 16, 16]} />
+  const tooltipContent = `
+    Latitude: ${latitude}
+    Longitude: ${longitude}
+    Magnitude: ${magnitude}
+    Date: ${date}
+    Label: ${label}
+  `;
 
-      {/* Material for the marker with transparency for visibility */}
-      <meshBasicMaterial color="red" opacity={0.5} transparent={true} />
-    </mesh>
+  return (
+    // <div className="tooltip" data-tip={tooltipContent}>
+      // {/* Create a marker sphere at the Cartesian coordinates */}
+      <mesh position={[x, y, z]}>
+        <sphereGeometry args={[markerRadiusOffset, 16, 16]} />
+
+        {/* Material for the marker with transparency for visibility */}
+        <meshBasicMaterial color="red" opacity={0.5} transparent={true} />
+      </mesh>
+    // {/* </div> */}
   );
 };
 
@@ -121,23 +140,21 @@ export default function MoonCanvas({
   //   };
   // }, [showLatitudeLongitude, scene]); // Make sure the effect runs when `showLatitudeLongitude` changes
 
-interface Quake {
-  lat: number;
-  lng: number;
-  magnitude: number;
-  date: string;
-  label: string;
-}
+  interface Quake {
+    lat: number;
+    lng: number;
+    magnitude: number;
+    date: string;
+    label: string;
+  }
 
-const [quakeData, setQuakeData] = useState<Quake[]>([]);
+  const [quakeData, setQuakeData] = useState<Quake[]>([]);
 
-
-useEffect(() => {
+  useEffect(() => {
     fetch("/quake_locations.json")
-      .then(response => response.json())
-      .then(data => setQuakeData(data));
-}, []);
-
+      .then((response) => response.json())
+      .then((data) => setQuakeData(data));
+  }, []);
 
   return (
     <Canvas
@@ -183,14 +200,16 @@ useEffect(() => {
       <Moon />
 
       {/* Render markers dynamically based on the fetched data */}
-    {quakeData.map((quake, index) => (
-      <Marker
-        key={index} 
-        latitude={quake.lat}
-        longitude={quake.lng}
-        magnitude={quake.magnitude}
-      />
-    ))}
+      {quakeData.map((quake, index) => (
+        <Marker
+          key={index}
+          latitude={quake.lat}
+          longitude={quake.lng}
+          magnitude={quake.magnitude}
+          date={quake.date}
+          label={quake.label}
+        />
+      ))}
     </Canvas>
   );
 }
