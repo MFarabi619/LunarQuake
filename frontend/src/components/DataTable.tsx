@@ -29,7 +29,7 @@ export default function DataTable({ setSelectedQuake }: { setSelectedQuake: (qua
                 <th>Longitude</th>
                 <th>Magnitude</th>
                 <th>Date</th>
-                <th>Label</th>
+                {/* <th>Label</th> */}
               </tr>
             </thead>
             <tbody>
@@ -40,7 +40,7 @@ export default function DataTable({ setSelectedQuake }: { setSelectedQuake: (qua
                   <td>{quake.lng}</td>
                   <td>{quake.magnitude}</td>
                   <td>{quake.date}</td>
-                  <td>{quake.label}</td>
+                  {/* <td>{quake.label}</td> */}
                 </tr>
               ))}
             </tbody>
