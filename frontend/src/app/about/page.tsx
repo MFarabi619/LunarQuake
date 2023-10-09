@@ -124,14 +124,20 @@ export default function About() {
               - Ximing Yu: Data modelling and API integration.
             </p>
 
-            <p className="mb-6">- Mumtahin Farabi: Front-End Developer</p>
+            <p className="mb-6">- Mumtahin Farabi &lt;<Link href={"mailto:mfarabi619@gmail.com"}>mfarabi619@gmail.com</Link>&gt;: Front-End Developer</p>
 
             <h2 className="text-2xl font-semibold mb-4">Links</h2>
 
             <p className="mb-6">
-              - Github Project: https://github.com/MFarabi619/LunarQuake - Live
-              Demo Link: https://lunar-quake.vercel.app/ - Slide Deck:
-              https://github.com/MFarabi619/LunarQuake/blob/main/lunar%20quake.pdf
+            - Github Project: https://github.com/MFarabi619/LunarQuake - Live
+            </p>
+
+            <p className="mb-6">
+            - Demo Link: https://lunar-quake.vercel.app/ - Slide Deck:
+            </p>
+
+            <p className="mb-6">
+            - https://github.com/MFarabi619/LunarQuake/blob/main/lunar%20quake.pdf
             </p>
           </div>
         </div>

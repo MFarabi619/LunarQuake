@@ -1,6 +1,12 @@
 # Lunar Quake
 
+![Alt text](screenshot.png)
+
 ## Project Overview
+
+Submission: https://www.spaceappschallenge.org/2023/find-a-team/lunar-quake/?tab=project
+
+Live Demo: https://lunar-quake.vercel.app/
 
 Lunar Quake is an innovative web application developed to visualize the seismic data collected from NASA's Apollo missions. By presenting this data on a 3D digital moon globe, we strive to make the intricate details of lunar seismic activities accessible and engaging for all.
 
@@ -20,19 +26,7 @@ The primary aim is to provide an interactive experience for users to explore and
 
 ## Technologies Used
 
-- **Front-End**: Next.js, Three.js, Tailwind CSS, Tremor
-  
-- **Back-End**: ....
-
-## Methodology
-
-1. **Data Collection**: Retrieve seismic data from NASA's provided sources.
-  
-2. **Data Processing**: Utilize ... to process and format the retrieved data for visualization.
-  
-3. **UI/UX Design**: Draft and finalize the design of the application to ensure user-friendly interactions.
-  
-4. **3D Modeling**: Use Three.js to create the 3D digital moon globe and plot seismic events.
+- **Front-End**: Next.js, Three.js, Tailwind CSS, Tremor, DaisyUI
 
 ## Benefits
 
@@ -52,5 +46,5 @@ The primary aim is to provide an interactive experience for users to explore and
   
 - **Ximing Yu**: Data modelling and API integration.
 
-- **Mumtahin Farabi**: Front-End Developer
+- **Mumtahin Farabi** <mfarabi619@gmail.com>: Front-End Developer
   
