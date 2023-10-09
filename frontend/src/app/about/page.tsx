@@ -83,12 +83,23 @@ export default function About() {
             </h2>
 
             <p className="mb-6">
-            - Rafi Khan rafi@rafikhan.io: Seismic Data Processing, Back-end Programming.
-            - Alif Chowdhury chowdhury.alif@gmail.com: Research Anaylyst, Seismic Data Processing
-            - Ximing Yu: Back-End Developer
+            - Rafi Khan <rafi@rafikhan.io>: Data Processing.
+            </p>
+            
+            <p className="mb-6">
+            - Alif Chowdhury <chowdhury.alif@gmail.com>: Research Anaylyst, Data Processing
+            </p>
+            
+            
+            <p className="mb-6">
+            - Ximing Yu:  Data modelling and API integration.
+            </p>
+
+            <p className="mb-6">
             - Mumtahin Farabi: Front-End Developer
             </p>
 
+            
             <h2 className="text-2xl font-semibold mb-4">
               Links
             </h2>

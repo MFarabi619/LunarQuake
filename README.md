@@ -46,11 +46,11 @@ The primary aim is to provide an interactive experience for users to explore and
 
 ## Team
 
-- **Rafi Khan** <rafi@rafikhan.io>: Seismic Data Processing, Back-end Programming.
+- **Rafi Khan** <rafi@rafikhan.io>: Data Processing.
   
-- **Alif Chowdhury** <chowdhury.alif@gmail.com>: Research Anaylyst, Seismic Data Processing. 
+- **Alif Chowdhury** <chowdhury.alif@gmail.com>: Research Anaylyst, Data Processing. 
   
-- **Ximing Yu**: Back-End Developer
+- **Ximing Yu**: Data modelling and API integration.
 
 - **Mumtahin Farabi**: Front-End Developer
   
