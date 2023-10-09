@@ -1,11 +1,8 @@
 "use client";
 import { useState, useEffect, useRef } from "react";
-import { PolarGridHelper, Color } from "three";
-import { Canvas, useThree } from "@react-three/fiber";
+import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import Starfield from "@/components/Starfield";
-import * as THREE from "three";
-import { div } from "three/examples/jsm/nodes/Nodes.js";
 
 // Defined constant for the radius of the moon model
 const MOON_MODEL_RADIUS = 500.6653264873212;
@@ -56,13 +53,13 @@ const Marker: React.FC<MarkerProps> = ({
 
   return (
     // <div className="tooltip" data-tip={tooltipContent}>
-      // {/* Create a marker sphere at the Cartesian coordinates */}
-      <mesh position={[x, y, z]}>
-        <sphereGeometry args={[markerRadiusOffset, 16, 16]} />
+    // {/* Create a marker sphere at the Cartesian coordinates */}
+    <mesh position={[x, y, z]}>
+      <sphereGeometry args={[markerRadiusOffset, 16, 16]} />
 
-        {/* Material for the marker with transparency for visibility */}
-        <meshBasicMaterial color="red" opacity={0.5} transparent={true} />
-      </mesh>
+      {/* Material for the marker with transparency for visibility */}
+      <meshBasicMaterial color="red" opacity={0.5} transparent={true} />
+    </mesh>
     // {/* </div> */}
   );
 };
@@ -111,35 +108,6 @@ export default function MoonCanvas({
   // Limit the zoom in so that the moon model is not clipped
   const MIN_ZOOM = MOON_DIAMETER - 400;
 
-  //   const { scene } = useThree();
-  //   const polarGridHelperRef = useRef<PolarGridHelper>(); // Reference to the helper
-
-  //   useEffect(() => {
-  //   if (showLatitudeLongitude) {
-  //     const helper = new PolarGridHelper(
-  //       MOON_MODEL_RADIUS,
-  //       10, // Represents longitudes
-  //       5,  // Represents latitudes
-  //       64,
-  //       new Color("red"),
-  //       new Color("white")
-  //       );
-
-  //     polarGridHelperRef.current = helper;
-  //     scene.add(helper);
-  //   } else if (polarGridHelperRef.current) {
-  //     // If it's already in the scene and the prop changes to hide it, remove it
-  //     scene.remove(polarGridHelperRef.current);
-  //   }
-
-  //   // Cleanup function to remove the helper when the component unmounts
-  //   return () => {
-  //     if (polarGridHelperRef.current) {
-  //       scene.remove(polarGridHelperRef.current);
-  //     }
-  //   };
-  // }, [showLatitudeLongitude, scene]); // Make sure the effect runs when `showLatitudeLongitude` changes
-
   interface Quake {
     lat: number;
     lng: number;
@@ -157,59 +125,48 @@ export default function MoonCanvas({
   }, []);
 
   return (
-    <Canvas
-      camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
-    >
-      {/* Option to show world axes */}
-      {showWorldAxes && <axesHelper args={[MOON_MODEL_RADIUS * 2]} />}
+      <Canvas
+        camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
+      >
+        {/* Option to show world axes */}
+        {showWorldAxes && <axesHelper args={[MOON_MODEL_RADIUS * 2]} />}
 
-      {/* Option to show latitude and longitude */}
-      {/* {showLatitudeLongitude && (
-  <PolarGridHelper 
-          radius={MOON_MODEL_RADIUS}
-          radials={10}  // Represents longitudes
-          circles={5}   // Represents latitudes
-          divisions={64}
-          color1="red"
-          color2="white"
+        {/* Starfield background. */}
+        <Starfield />
+
+        {/* Allow the user to control the camera with the mouse. */}
+        <OrbitControls minDistance={MIN_ZOOM} maxDistance={MAX_ZOOM} />
+
+        {/* Ambient light affects all objects in the scene globally. */}
+        <ambientLight intensity={ambientLightIntensity} />
+
+        {/* Directional light acts like the sun, providing parallel light rays. */}
+        <directionalLight
+          intensity={directionalLightIntensity}
+          position={[2, 2, 2]}
         />
-      )} */}
 
-      {/* Starfield background. */}
-      <Starfield />
+        {/* Point lights emit light in every direction from a single point. */}
+        {/* <pointLight intensity={pointLightIntensity} position={[100, 0, 0]} /> */}
 
-      {/* Allow the user to control the camera with the mouse. */}
-      <OrbitControls minDistance={MIN_ZOOM} maxDistance={MAX_ZOOM} />
+        {/* Hemisphere light to softly illuminate the scene and give a more natural look. */}
+        <hemisphereLight intensity={hemisphereLightIntensity} />
 
-      {/* Ambient light affects all objects in the scene globally. */}
-      <ambientLight intensity={ambientLightIntensity} />
+        {/* The moon model. */}
+        <Moon />
 
-      {/* Directional light acts like the sun, providing parallel light rays. */}
-      <directionalLight
-        intensity={directionalLightIntensity}
-        position={[2, 2, 2]}
-      />
+        {/* Render markers dynamically based on the fetched data */}
+        {quakeData.map((quake, index) => (
+          <Marker
+            key={index}
+            latitude={quake.lat}
+            longitude={quake.lng}
+            magnitude={quake.magnitude}
+            date={quake.date}
+            label={quake.label}
+          />
+        ))}
+      </Canvas>
 
-      {/* Point lights emit light in every direction from a single point. */}
-      {/* <pointLight intensity={pointLightIntensity} position={[100, 0, 0]} /> */}
-
-      {/* Hemisphere light to softly illuminate the scene and give a more natural look. */}
-      <hemisphereLight intensity={hemisphereLightIntensity} />
-
-      {/* The moon model. */}
-      <Moon />
-
-      {/* Render markers dynamically based on the fetched data */}
-      {quakeData.map((quake, index) => (
-        <Marker
-          key={index}
-          latitude={quake.lat}
-          longitude={quake.lng}
-          magnitude={quake.magnitude}
-          date={quake.date}
-          label={quake.label}
-        />
-      ))}
-    </Canvas>
   );
 }

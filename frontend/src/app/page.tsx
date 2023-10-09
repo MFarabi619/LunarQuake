@@ -9,6 +9,7 @@ const MoonCanvas = dynamic(() => import("@/components/MoonCanvas"), {
 
 import MoonQuakeFilter from "@/components/MoonQuakeFilter";
 import Menu from "@/components/Menu";
+import DataTable from "@/components/DataTable";
 
 export default function Home() {
   const [showWorldAxes, setShowWorldAxes] = useState(false);
@@ -46,6 +47,7 @@ export default function Home() {
           setPointLightIntensity={setPointLightIntensity}
           pointLightIntensity={pointLightIntensity}
         />
+<DataTable/>
       </div>
     </>
   );
