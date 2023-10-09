@@ -10,6 +10,7 @@ const MoonCanvas = dynamic(() => import("@/components/MoonCanvas"), {
 import MoonQuakeFilter from "@/components/MoonQuakeFilter";
 import Menu from "@/components/Menu";
 import DataTable from "@/components/DataTable";
+import { Quake } from "@/components/DataTable";
 
 export default function Home() {
   const [showWorldAxes, setShowWorldAxes] = useState(false);
@@ -18,6 +19,8 @@ export default function Home() {
   const [ambientLightIntensity, setAmbientLightIntensity] = useState(3);
   const [hemisphereLightIntensity, setHemisphereLightIntensity] = useState(0.5);
   const [pointLightIntensity, setPointLightIntensity] = useState(0.5);
+
+const [selectedQuake, setSelectedQuake] = useState<Quake | null>(null);
 
   return (
     <>
@@ -29,6 +32,8 @@ export default function Home() {
           ambientLightIntensity={ambientLightIntensity}
           hemisphereLightIntensity={hemisphereLightIntensity}
           pointLightIntensity={pointLightIntensity}
+          selectedQuake={selectedQuake}
+   setSelectedQuake={setSelectedQuake}
         />
         <MoonQuakeFilter />
         <Menu
@@ -47,7 +52,7 @@ export default function Home() {
           setPointLightIntensity={setPointLightIntensity}
           pointLightIntensity={pointLightIntensity}
         />
-<DataTable/>
+<DataTable setSelectedQuake={setSelectedQuake}/>
       </div>
     </>
   );

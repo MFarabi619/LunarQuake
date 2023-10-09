@@ -1,8 +1,9 @@
 "use client";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import Starfield from "@/components/Starfield";
+import { Quake } from "./DataTable";
 
 // Defined constant for the radius of the moon model
 const MOON_MODEL_RADIUS = 500.6653264873212;
@@ -71,6 +72,8 @@ interface MoonCanvasProps {
   ambientLightIntensity: number;
   hemisphereLightIntensity: number;
   pointLightIntensity: number;
+  selectedQuake: Quake | null;
+  setSelectedQuake: React.Dispatch<React.SetStateAction<Quake | null>>;
 }
 
 // Main component to display the moon model and markers
@@ -81,6 +84,8 @@ export default function MoonCanvas({
   ambientLightIntensity,
   hemisphereLightIntensity,
   pointLightIntensity,
+  selectedQuake,
+  setSelectedQuake,
 }: MoonCanvasProps) {
   // Calculate the diameter of the moon model, so that it can be used to calculate the camera position based on the viewport aspect ratio
   const MOON_DIAMETER = MOON_MODEL_RADIUS * 2;
@@ -116,6 +121,7 @@ export default function MoonCanvas({
     label: string;
   }
 
+  // For rendering the data from the json file
   const [quakeData, setQuakeData] = useState<Quake[]>([]);
 
   useEffect(() => {
@@ -124,49 +130,66 @@ export default function MoonCanvas({
       .then((data) => setQuakeData(data));
   }, []);
 
+  // For navigating to the selected quake when data point is clicked on the table
+  useEffect(() => {
+    if (selectedQuake) {
+      const phi = Math.PI / 2 - selectedQuake.lat * (Math.PI / 180);
+      const theta = Math.PI + selectedQuake.lng * (Math.PI / 180);
+      const r =
+        MOON_MODEL_RADIUS + MOON_MODEL_RADIUS * 0.01 * selectedQuake.magnitude; // Adjust if needed
+
+      const x = -r * Math.sin(phi) * Math.sin(theta);
+      const y = r * Math.cos(phi);
+      const z = r * Math.sin(phi) * Math.cos(theta);
+
+      // Update the cameraPosition state
+      setCameraPosition([x * 2, y * 2, z * 2]);
+    }
+  }, [selectedQuake]);
+
   return (
-      <Canvas
-        camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
-      >
-        {/* Option to show world axes */}
-        {showWorldAxes && <axesHelper args={[MOON_MODEL_RADIUS * 2]} />}
+    <Canvas
+      key={cameraPosition.join(",")}
+      camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
+    >
+      {/* Option to show world axes */}
+      {showWorldAxes && <axesHelper args={[MOON_MODEL_RADIUS * 2]} />}
 
-        {/* Starfield background. */}
-        <Starfield />
+      {/* Starfield background. */}
+      <Starfield />
 
-        {/* Allow the user to control the camera with the mouse. */}
-        <OrbitControls minDistance={MIN_ZOOM} maxDistance={MAX_ZOOM} />
+      {/* Allow the user to control the camera with the mouse. */}
+      <OrbitControls minDistance={MIN_ZOOM} maxDistance={MAX_ZOOM} />
 
-        {/* Ambient light affects all objects in the scene globally. */}
-        <ambientLight intensity={ambientLightIntensity} />
+      {/* Ambient light affects all objects in the scene globally. */}
+      <ambientLight intensity={ambientLightIntensity} />
 
-        {/* Directional light acts like the sun, providing parallel light rays. */}
-        <directionalLight
-          intensity={directionalLightIntensity}
-          position={[2, 2, 2]}
+      {/* Directional light acts like the sun, providing parallel light rays. */}
+      <directionalLight
+        intensity={directionalLightIntensity}
+        position={[2, 2, 2]}
+      />
+
+      {/* Point lights emit light in every direction from a single point. */}
+      {/* <pointLight intensity={pointLightIntensity} position={[100, 0, 0]} /> */}
+
+      {/* Hemisphere light to softly illuminate the scene and give a more natural look. */}
+      <hemisphereLight intensity={hemisphereLightIntensity} />
+
+      {/* The moon model. */}
+      <Moon />
+
+      {/* Render markers dynamically based on the fetched data */}
+      {quakeData.map((quake, index) => (
+        <Marker
+          key={index}
+          latitude={quake.lat}
+          longitude={quake.lng}
+          magnitude={quake.magnitude}
+          date={quake.date}
+          label={quake.label}
         />
-
-        {/* Point lights emit light in every direction from a single point. */}
-        {/* <pointLight intensity={pointLightIntensity} position={[100, 0, 0]} /> */}
-
-        {/* Hemisphere light to softly illuminate the scene and give a more natural look. */}
-        <hemisphereLight intensity={hemisphereLightIntensity} />
-
-        {/* The moon model. */}
-        <Moon />
-
-        {/* Render markers dynamically based on the fetched data */}
-        {quakeData.map((quake, index) => (
-          <Marker
-            key={index}
-            latitude={quake.lat}
-            longitude={quake.lng}
-            magnitude={quake.magnitude}
-            date={quake.date}
-            label={quake.label}
-          />
-        ))}
-      </Canvas>
-
+      ))}
+    </Canvas>
   );
 }

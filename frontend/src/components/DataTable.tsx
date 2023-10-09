@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-interface Quake {
+export interface Quake {
   lat: number;
   lng: number;
   magnitude: number;
@@ -8,7 +8,7 @@ interface Quake {
   label: string;
 }
 
-function DataTable() {
+export default function DataTable({ setSelectedQuake }: { setSelectedQuake: (quake: Quake) => void }) {
   const [quakeData, setQuakeData] = useState<Quake[]>([]);
 
   useEffect(() => {
@@ -29,18 +29,18 @@ function DataTable() {
                 <th>Longitude</th>
                 <th>Magnitude</th>
                 <th>Date</th>
-                {/* <th>Label</th> */}
+                <th>Label</th>
               </tr>
             </thead>
             <tbody>
               {quakeData.map((quake, index) => (
-                <tr key={index}>
+                <tr key={index} onClick={() => setSelectedQuake(quake)}>
                   <th>{index + 1}</th>
                   <td>{quake.lat}</td>
                   <td>{quake.lng}</td>
                   <td>{quake.magnitude}</td>
                   <td>{quake.date}</td>
-                  {/* <td>{quake.label}</td> */}
+                  <td>{quake.label}</td>
                 </tr>
               ))}
             </tbody>
@@ -50,5 +50,3 @@ function DataTable() {
     </div>
   );
 }
-
-export default DataTable;
