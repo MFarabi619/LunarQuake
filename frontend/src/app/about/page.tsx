@@ -71,65 +71,35 @@ export default function About() {
         <div className="absolute mt-[6rem] flex max-w-screen-2xl justify-center bg-transparent backdrop-blur-[2.5px] border border-slate-300 border-opacity-20 mx-auto p-6">
           <div>
             <h2 className="text-2xl font-semibold mb-4">
-              Moon&apos;s Mysteries: Seismic Stories
+              What is Lunar Quake?
             </h2>
+            
             <p className="mb-6">
-              The Apollo missions, apart from their primary goal of landing
-              humans on the Moon, undertook an exceptional scientific endeavor.
-              Instruments known as Passive Seismic Experiments (PSE) were
-              carefully positioned by astronauts across various lunar
-              landscapes. Designed to persevere in the harsh conditions of
-              space, these instruments diligently recorded data for over a year
-              after the Apollo crew left the lunar surface.
+            Project Lunar Quake processes data collected by lunar seismometers from the Apollo 11, 12 and 14-16 missions, presented as a publicly accessible interactive web app. The data is visualized as a 3D model, with circular markers identifying seismic activity and filters based on time, spatial, and visual components which allow users to explore both wide and narrow ranges of lunar seismic activity. The web page also includes the background on the lunar seismometers and their history. Through this web app, we hope to provide everyday citizens and other interested parties with an easy way to learn more about lunar activity, specific seismic events, and find a connection to the moon they see every day.
             </p>
+
+            <h2 className="text-2xl font-semibold mb-4">
+              The team behind Lunar Quake
+            </h2>
+
             <p className="mb-6">
-              Two distinct versions of the PSE were deployed: the Apollo 11
-              mission saw the setup of the Early Apollo Surface Experiments
-              Package (EASEP) units, showcased in Figure 1. In contrast, the
-              Apollo 12, 14, 15, and 16 missions favored the advanced Apollo
-              Lunar Surface Experiments Package (ALSEP) units, depicted in
-              Figure 2. The heart of these instruments was the seismometer,
-              which captured moonquakes, meteoritic impacts, and even man-made
-              disturbances. This precious data, sent back to Earth, offers
-              invaluable insights even today, presenting a vivid account of the
-              Moon&apos;s geological activities.
+            - Rafi Khan rafi@rafikhan.io: Seismic Data Processing, Back-end Programming.
+            - Alif Chowdhury chowdhury.alif@gmail.com: Research Anaylyst, Seismic Data Processing
+            - Ximing Yu: Back-End Developer
+            - Mumtahin Farabi: Front-End Developer
             </p>
+
+            <h2 className="text-2xl font-semibold mb-4">
+              Links
+            </h2>
+
             <p className="mb-6">
-              Delving into NASA&apos;s Planetary Data System reveals an updated
-              lunar seismic dataset, complete with details such as date, time,
-              coordinates, magnitude, and depth. Intriguingly, many moonquakes
-              were found to be synchronized with the Moon&apos;s day-night
-              cycle, particularly during sunset and sunrise. The rapid
-              temperature shifts during these transitions, especially near the
-              terminator line, seem to play a role. Moreover, a significant
-              portion of these quakes appear to align with the Moon&apos;s known
-              fault lines, hinting at an active lunar geology.
+              - Github Project: https://github.com/MFarabi619/LunarQuake
+              - Live Demo Link: https://lunar-quake.vercel.app/
+              - Slide Deck: https://github.com/MFarabi619/LunarQuake/blob/main/lunar%20quake.pdf
             </p>
-            <div className="flex justify-evenly mt-[6rem]">
-              <figure>
-                <Image
-                  src="/pse_apparatus_1.jpg"
-                  alt="Image of first PSE apparatus"
-                  width={445}
-                  height={800}
-                />
-                <figcaption className="text-sm italic mt-2">
-                  Figure 1: EASEP Units Deployed by Apollo 11
-                </figcaption>
-              </figure>
-              <figure>
-                <Image
-                  src="/pse_apparatus_2.jpg"
-                  alt="Image of covered PSE apparatus for Apollo 12, 13, 14, and 15"
-                  width={350}
-                  height={800}
-                />
-                <figcaption className="text-sm italic mt-2">
-                  Figure 2: Advanced ALSEP Units Positioned in Later Apollo
-                  Missions
-                </figcaption>
-              </figure>
-            </div>
+
+
           </div>
         </div>
       </div>
