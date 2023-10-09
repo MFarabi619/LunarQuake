@@ -5,7 +5,6 @@ import { Canvas, useThree } from "@react-three/fiber";
 import { OrbitControls, useGLTF } from "@react-three/drei";
 import Starfield from "@/components/Starfield";
 import * as THREE from "three";
-import { Grid } from "@tremor/react";
 
 // Defined constant for the radius of the moon model
 const MOON_MODEL_RADIUS = 500.6653264873212;
@@ -122,6 +121,24 @@ export default function MoonCanvas({
   //   };
   // }, [showLatitudeLongitude, scene]); // Make sure the effect runs when `showLatitudeLongitude` changes
 
+interface Quake {
+  lat: number;
+  lng: number;
+  magnitude: number;
+  date: string;
+  label: string;
+}
+
+const [quakeData, setQuakeData] = useState<Quake[]>([]);
+
+
+useEffect(() => {
+    fetch("/quake_locations.json")
+      .then(response => response.json())
+      .then(data => setQuakeData(data));
+}, []);
+
+
   return (
     <Canvas
       camera={{ position: cameraPosition, fov: 75, near: 0.1, far: 4000 }}
@@ -165,11 +182,15 @@ export default function MoonCanvas({
       {/* The moon model. */}
       <Moon />
 
-      {/* Test markers with various latitudes, longitudes, and magnitudes. */}
-      <Marker latitude={-8.00942} longitude={-50.42458} magnitude={3} />
-      <Marker latitude={-3.20942} longitude={-63.62458} magnitude={2} />
-      <Marker latitude={-3.30942} longitude={-43.32458} magnitude={4} />
-      <Marker latitude={10} longitude={10} magnitude={8} />
+      {/* Render markers dynamically based on the fetched data */}
+    {quakeData.map((quake, index) => (
+      <Marker
+        key={index} 
+        latitude={quake.lat}
+        longitude={quake.lng}
+        magnitude={quake.magnitude}
+      />
+    ))}
     </Canvas>
   );
 }
